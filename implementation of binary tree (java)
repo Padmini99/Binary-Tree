@@ -1,6 +1,7 @@
 // Online Java Compiler
 // Use this editor to write, compile and run your Java code online
 import java.util.Scanner;
+import java.util.*;
 class Node {
     int data;
     Node left;
@@ -25,6 +26,61 @@ public class HelloWorld {
         root.right = buildTree(root.right);
         return root;
     }
+    private static void levelOrder(Node root){
+    Queue<Node> q = new LinkedList<>();
+    q.add(root);
+    q.add(null);
+    while(!q.isEmpty()){
+        Node temp=q.peek();
+        q.poll();
+        if(temp==null){
+            System.out.println();
+            if(!q.isEmpty()){
+                q.add(null);
+            }
+        }
+        else{
+            System.out.print(temp.data+" ");
+            if(temp.left!=null){
+                q.add(temp.left);
+            }
+            if(temp.right!=null){
+                q.add(temp.right);
+            }
+        }
+    }
+}
+    private static void itepreorder(Node root){
+    if(root == null){
+        return;
+    }
+    Stack<Node> s = new Stack<>();
+    s.push(root);
+    while(!s.isEmpty()){
+        Node temp = s.peek();
+        s.pop();
+        System.out.print(temp.data + " ");
+        if(temp.right != null){
+            s.push(temp.right);
+        }
+        if(temp.left != null){
+            s.push(temp.left);
+        }
+    }
+}
+    private static void iteinorder(Node root){
+    Stack<Node> s = new Stack<>();
+    Node temp = root;
+    while(temp != null || !s.isEmpty()){
+        while(temp != null){
+            s.push(temp);
+            temp = temp.left;
+        }
+        temp = s.pop();
+        System.out.print(temp.data + " ");
+        temp = temp.right;
+    }
+}
     private static void preorder(Node root){
         if(root == null){
             return;
@@ -51,14 +107,25 @@ public class HelloWorld {
     }
     public static void main(String[] args) {
         Node root =null;
-        System.out.print("enter data:");
+        System.out.print("enter data: ");
         //1 3 7 -1 -1 11 -1 -1 5 17 -1 -1 -1
         root=buildTree(root);
+        System.out.println("level order traversal: ");
+        levelOrder(root);
+        System.out.print("iterative preorder traversal: ");
+        itepreorder(root);
+        System.out.println();
         System.out.print("preorder traversal: ");
         preorder(root);
         System.out.println();
+        System.out.print("iterative inorder traversal: ");
+        iteinorder(root);
+        System.out.println();
         System.out.print("inorder traversal: ");
         inorder(root);
+        System.out.println();
+        System.out.print("iterative post-order traversal: ");
+        itepostorder(root);
         System.out.println();
         System.out.print("post-order traversal: ");
         postorder(root);
