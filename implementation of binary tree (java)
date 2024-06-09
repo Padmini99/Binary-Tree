@@ -6,29 +6,62 @@ class Node {
     Node left;
     Node right;
     Node(int data) {
-        this.data=data;
-        this.left = null;
-        this.right = null;
+        this.data = data;
+        this.left= null;
+        this.right=null;
     }
 }
 public class HelloWorld {
+    static Scanner s=new Scanner(System.in);
     private static Node buildTree(Node root){
-    Scanner s=new Scanner(System.in);
-    int data;
-    System.out.print("enter data:");
-    data=s.nextInt();
-    root=new Node(data);
-    if(data == -1){
-        return null;
+        int data=s.nextInt();
+        if(data==-1){
+            return null;
+        }
+        root=new Node(data);
+        System.out.println("Enter data for left child of " + data);
+        root.left = buildTree(root.left);
+        System.out.println("Enter data for right child of " + data);
+        root.right = buildTree(root.right);
+        return root;
     }
-    System.out.println("enter data for inserting in left of"+data);
-    root.left=buildTree(root.left);
-    System.out.println("enter data for inserting in right of"+data);
-    root.right=buildTree(root.right);
-    return root;
-}
+    private static void preorder(Node root){
+        if(root == null){
+            return;
+        }
+        System.out.print(root.data+" ");
+        preorder(root.left);
+        preorder(root.right);
+    }
+    private static void inorder(Node root){
+        if(root == null){
+            return;
+        }
+        inorder(root.left);
+        System.out.print(root.data+" ");
+        inorder(root.right);
+    }
+    private static void postorder(Node root){
+        if(root == null){
+            return;
+        }
+        postorder(root.left);
+        postorder(root.right);
+        System.out.print(root.data+" ");
+    }
     public static void main(String[] args) {
-        Node root=null;
+        Node root =null;
+        System.out.print("enter data:");
+        //1 3 7 -1 -1 11 -1 -1 5 17 -1 -1 -1
         root=buildTree(root);
+        System.out.print("preorder traversal: ");
+        preorder(root);
+        System.out.println();
+        System.out.print("inorder traversal: ");
+        inorder(root);
+        System.out.println();
+        System.out.print("post-order traversal: ");
+        postorder(root);
+        
     }
 }
