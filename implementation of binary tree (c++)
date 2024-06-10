@@ -80,6 +80,59 @@ void iteinorder(Node* root){
         temp=temp->right;
     }
 }
+void itepostorder1(Node* root){
+    if(root == NULL){
+        return;
+    }
+    stack<Node*>s;
+    Node* curr=root;
+    while(curr!=NULL || !s.empty()){
+        if(curr!=NULL){
+            s.push(curr);
+            curr=curr->left;
+        }
+        else{
+        Node* temp=s.top()->right;
+            if(temp==NULL){
+                temp=s.top();
+                s.pop();
+                cout<<temp->data<<" ";
+                while(!s.empty() && temp == s.top()->right){
+                    temp=s.top();
+                    s.pop();
+                    cout<<temp->data<<" ";
+                }
+            }
+            else{
+                curr=temp;
+            }
+        }
+    }
+}
+void itepostorder2(Node* root){
+    if(root==NULL){
+        return;
+    }
+    stack<Node*>s1;
+    stack<Node*>s2;
+    s1.push(root);
+    while(!s1.empty()){
+        Node* temp=s1.top();
+        s1.pop();
+        s2.push(temp);
+        if(temp->left){
+            s1.push(temp->left);
+        }
+        if(temp->right){
+            s1.push(temp->right);
+        }
+    }
+    while(!s2.empty()){
+        Node* temp=s2.top();
+        s2.pop();
+        cout<<temp->data<<" ";
+    }
+}
 void preorder(Node* root) {
     if(root == NULL) {
         return;
@@ -123,7 +176,14 @@ int main() {
     cout << "inorder traversal : ";
     inorder(root);
     cout<<endl;
+    cout << "iterative postorder traversal using 1 stacks : ";
+    itepostorder1(root);
+    cout<<endl;
+    cout << "iterative postorder traversal using 2 stacks : ";
+    itepostorder2(root);
+    cout<<endl;
     cout << "postorder traversal : ";
     postorder(root);
+    cout<<endl;
     return 0;
 }
