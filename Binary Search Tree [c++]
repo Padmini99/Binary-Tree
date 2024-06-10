@@ -1,0 +1,141 @@
+#include<bits/stdc++.h>
+using namespace std;
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+    Node(int data) {
+        this->data = data;
+        this->left = NULL;
+        this->right = NULL;
+    }
+};
+Node* insertintoBST(Node* &root,int d){
+    if(root==NULL){
+        root=new Node(d);
+        return root;
+    }
+    if(d > root->data){
+        root->right=insertintoBST(root->right,d);
+    }
+    else{
+        root->left=insertintoBST(root->left,d);
+    }
+    return root;
+}
+void takeip(Node* &root){
+    int data;
+    cin>>data;
+    while(data!=-1){
+        root=insertintoBST(root,data);
+        cin>>data;
+    }
+}
+void levelOrder(Node* root){
+    queue<Node*>q;
+    q.push(root);
+    q.push(NULL);
+    while(!q.empty()){
+        Node* temp=q.front();
+        q.pop();
+        if(temp==NULL){
+            cout<<endl;
+            if(!q.empty()){
+                q.push(NULL);
+            }
+        }
+        else{
+            cout<<temp->data<<" ";
+            if(temp->left){
+                q.push(temp->left);
+            }
+            if(temp->right){
+                q.push(temp->right);
+            }
+        }
+    }
+}
+Node* searchBST(Node* root, int data) {
+    while(root != NULL && root->data != data){
+        root = data < root->data ? root->left : root->right;
+    }
+    return root;
+}
+Node* minVal(Node* root){
+    Node* temp=root;
+    while(temp->left!=NULL){
+        temp=temp->left;
+    }
+    return temp;
+}
+Node* maxVal(Node* root){
+    Node* temp=root;
+    while(temp->right!=NULL){
+        temp=temp->right;
+    }
+    return temp;
+}
+Node* deletefromBST(Node* root,int data){
+    if(root == NULL){
+        return root;  
+    } 
+    if(root->data == data){
+        //0 children
+        if(root->left!=NULL && root->right!=NULL){
+            delete root;
+            return NULL;
+        }
+        //1 Children
+            //left child
+        if(root->left!=NULL && root->right==NULL){
+            Node* temp=root->left;
+            delete root;
+            return temp;
+        }
+            //right child
+        if(root->left==NULL && root->right!=NULL){
+            Node* temp=root->right;
+            delete root;
+            return temp;
+        }
+        //2 children
+        if(root->left!=NULL && root->right!=NULL){
+            int mini=minVal(root->right)->data;
+            root->data=mini;
+            root->right=deletefromBST(root->right,mini);
+            return root;
+        }     
+    }
+    else if(root->data > data){
+        root->left = deletefromBST(root->left,data);
+        return root;
+    }
+    else{
+        root->right = deletefromBST(root->right,data);
+        return root;
+    }
+    return root;
+}
+int main(){
+    Node* root=NULL;
+    cout<<"enter data: ";
+    // 10 8 21 7 27 5 4 3 -1
+    takeip(root);
+    cout<<"print BST : "<<endl;
+    levelOrder(root);
+    cout<<"search BST : "<<endl;
+    Node* res=searchBST(root,4);
+    if(res != NULL) {
+    cout << "Found node with data: " << res->data << endl;
+    } 
+    else {
+    cout << "No node found with the given data." << endl;
+    }
+    cout<<"Minimum Value : "<<minVal(root)->data<<endl;
+    cout<<"Maximum Value : "<<maxVal(root)->data<<endl;
+    //cout<<"Deletion : "<<endl;
+    root=deletefromBST(root,7);
+    cout<<"print BST : "<<endl;
+    levelOrder(root);
+}
