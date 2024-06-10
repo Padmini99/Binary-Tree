@@ -1,0 +1,144 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.Scanner;
+import java.util.*;
+class Node {
+    int data;
+    Node left;
+    Node right;
+    Node(int data) {
+        this.data = data;
+        this.left= null;
+        this.right=null;
+    }
+}
+public class HelloWorld {
+    private static Node insertintoBST(Node root,int d){
+    if(root==null){
+        root=new Node(d);
+        return root;
+    }
+    if(d > root.data){
+        root.right=insertintoBST(root.right,d);
+    }
+    else{
+        root.left=insertintoBST(root.left,d);
+    }
+    return root;
+}
+static Scanner s=new Scanner(System.in);
+private static Node takeip(Node root){
+    int data=s.nextInt();
+    while(data!=-1){
+        root=insertintoBST(root,data);
+        data=s.nextInt();
+    }
+    return root;
+}
+    private static void levelOrder(Node root){
+    Queue<Node> q = new LinkedList<>();
+    q.add(root);
+    q.add(null);
+    while(!q.isEmpty()){
+        Node temp=q.peek();
+        q.poll();
+        if(temp==null){
+            System.out.println();
+            if(!q.isEmpty()){
+                q.add(null);
+            }
+        }
+        else{
+            System.out.print(temp.data+" ");
+            if(temp.left!=null){
+                q.add(temp.left);
+            }
+            if(temp.right!=null){
+                q.add(temp.right);
+            }
+        }
+    }
+}
+private static Node searchBST(Node root, int data) {
+    while(root != null && root.data != data){
+        root = data < root.data ? root.left : root.right;
+    }
+    return root;
+}
+private static Node minVal(Node root){
+    Node temp=root;
+    while(temp.left!=null){
+        temp=temp.left;
+    }
+    return temp;
+}
+private static Node maxVal(Node root){
+    Node temp=root;
+    while(temp.right!=null){
+        temp=temp.right;
+    }
+    return temp;
+}
+private static Node deletefromBST(Node root,int data){
+    if(root == null){
+        return root;  
+    } 
+    if(root.data == data){
+        //0 children
+        if(root.left!=null && root.right!=null){
+            //delete root;
+            return null;
+        }
+        //1 Children
+            //left child
+        if(root.left!=null && root.right==null){
+            Node temp=root.left;
+            //delete root;
+            return temp;
+        }
+            //right child
+        if(root.left==null && root.right!=null){
+            Node temp=root.right;
+            //delete root;
+            return temp;
+        }
+        //2 children
+        if(root.left!=null && root.right!=null){
+            int mini=minVal(root.right).data;
+            root.data=mini;
+            root.right=deletefromBST(root.right,mini);
+            return root;
+        }     
+    }
+    else if(root.data > data){
+        root.left = deletefromBST(root.left,data);
+        return root;
+    }
+    else{
+        root.right = deletefromBST(root.right,data);
+        return root;
+    }
+    return root;
+}
+ public static void main(String[] args) {
+        Node root =null;
+        System.out.print("enter data: ");
+        //10 8 21 7 27 5 4 3 -1
+        root=takeip(root);
+        System.out.println("Print BST : ");
+        levelOrder(root);
+        System.out.println("Search BST: ");
+        Node res=searchBST(root,4);
+        if(res != null) {
+        System.out.println("Found node with data: "+res.data);
+        } 
+        else {
+         System.out.println("No node found with the given data.");
+        }
+        System.out.println("Minimum Value : "+minVal(root).data);
+        System.out.println("Maximum Value : "+maxVal(root).data);
+        root=deletefromBST(root,21);
+        System.out.println("Print BST : ");
+        levelOrder(root);
+    }
+}
