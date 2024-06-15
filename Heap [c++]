@@ -27,33 +27,33 @@ class heap{
         }
     }
     //deletion
-    void deletefromheap(){
+     void deleteFromHeap(){
         if(size==0){
-            cout<<"nothing to delte"<<endl;
+            cout<<"nothing to delete ";
             return;
         }
-        //put last to first index
-        arr[1]=arr[size];
-        //delte last ele
-        size--;
-        //place root node in crct position
-        int i=1;
-        while(i<size){
-            int leftindex=2*i;
-            int rightindex=2*i+1;
-            if(leftindex<size && arr[i]<arr[leftindex]){
-                swap(arr[i],arr[leftindex]);
-                i=leftindex;
-            }
-            else if(rightindex<size && arr[i]<arr[rightindex]){
-                swap(arr[i],arr[rightindex]);
-                i=rightindex;
-            }
-            else{
-                return;
-            }
-        }
+
+        //step 1: put last element into first index
+        aarr[1]=arr[size];
+     //2nd step: remove 
+    size--;
+    //3rd step : take root node to its correct position
+    int i=1;
+    while(i<size){
+      int leftInd=2*i;
+      int rightInd=2*i+1;
+      if(leftInd<=size && arr[i]<arr[leftInd] && arr[leftInd]>arr[rightInd]){
+        swap(arr[i], arr[leftInd]);
+        i=leftInd;
+      }
+      else if(rightInd<=size && arr[i]<arr[rightInd] && arr[rightInd]>arr[leftInd]){
+        swap(arr[i], arr[rightInd]);
+        i=rightInd;
+      }else{
+        return;
+      }
     }
+}
     void print(){
         for(int i=1;i<=size;i++){
             cout<<arr[i]<<" ";
