@@ -147,5 +147,46 @@ int main() {
         cout<<arr[i]<<" ";
     }
     cout<<endl;
+    cout<<"maximum heap in priority queue:"<<endl;
+    priority_queue<int> p;
+    p.push(2);
+    p.push(5);
+    p.push(1);
+    p.push(4);
+    cout<<"top ele : "<<p.top()<<endl;
+    cout<<"size : "<<p.size()<<endl;
+    p.pop();
+    cout<<"top ele : "<<p.top()<<endl;
+    cout<<"size : "<<p.size()<<endl;
+    while(p.empty()){
+        cout<<"empty"<<endl;
+    }
+    cout<<"not empty"<<endl;
+    int m=p.size();
+    for(int i=0;i<m;i++){
+        cout<<p.top()<<" ";
+        p.pop();
+    }
+    cout<<endl;
+    cout<<"minimum heap in priority queue:"<<endl;
+    priority_queue<int,vector<int>,greater<int>> q;
+    q.push(2);
+    q.push(5);
+    q.push(1);
+    q.push(4);
+    cout<<"top ele : "<<q.top()<<endl;
+    cout<<"size : "<<q.size()<<endl;
+    q.pop();
+    cout<<"top ele : "<<q.top()<<endl;
+    cout<<"size : "<<q.size()<<endl;
+    while(q.empty()){
+        cout<<"empty"<<endl;
+    }
+    cout<<"not empty"<<endl;
+    int x=q.size();
+    for(int i=0;i<x;i++){
+        cout<<q.top()<<" ";
+        q.pop();
+    }
     return 0;
 }
